@@ -1,0 +1,55 @@
+<mat-card class="chat-container">
+  @if (messagesResource.status() === 'error') {
+    <app-resource-error
+      [error]="messagesErrorHandler.error()"
+      [retryCount]="messagesErrorHandler.retryCount()"
+      [maxRetries]="3"
+      [title]="'Error Loading Messages'"
+      (retry)="onRetryLoadMessages()">
+    </app-resource-error>
+  }
+
+  <div class="chat-history" #chatHistory>
+    <div class="messages">
+    @for (message of messages(); track $index) {
+      <div class="message">
+        <div class="message-bubble" [class.user]="message.type === ChatType.USER" style="white-space: pre-wrap;"
+        [innerHTML]="message.content | markdownToHtml">
+        </div>
+      </div>
+    }
+    @if (isLoading) {
+      <div class="message">
+        <div class="message-bubble">
+          <span class="typing">...</span>
+        </div>
+      </div>
+    }
+  </div>
+  </div>
+
+  <div class="chat-input">
+    <mat-form-field class="full-width">
+      <mat-label>Ask anything</mat-label>
+      <input matInput
+             [ngModel]="userInput()"
+             (ngModelChange)="userInput.set($event)"
+             (keyup.enter)="sendMessage()"
+             [maxlength]="MAX_LENGTH"
+             placeholder="Type your message...">
+      <mat-hint align="end">{{userInput().length}}/{{MAX_LENGTH}}</mat-hint>
+      @if (validationError()) {
+        <mat-error>{{validationError()}}</mat-error>
+      }
+      @if (userInput()) {
+        <button matSuffix
+                mat-icon-button
+                aria-label="Send"
+                (click)="sendMessage()"
+                [disabled]="!canSend()">
+          <mat-icon>send</mat-icon>
+        </button>
+     }
+    </mat-form-field>
+  </div>
+</mat-card>

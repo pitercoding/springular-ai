@@ -1,5 +1,5 @@
 <mat-card class="chat-container">
-  <div>
+  <div class="chat-header">
     <mat-toolbar>
         <span>Simple Chat</span>
     </mat-toolbar>
@@ -8,17 +8,17 @@
   <div class="chat-history" #chatHistory>
     <div class="messages">
 
-      @for (message of messages(); track message) {
+      @for (message of messages(); track $index) {
         <div class="message">
-          <div class="message-buble" [ngClass]="{'user': !message.isBot}">
-            {{ message.text }}
+          <div class="message-bubble" [class.user]="!message.isBot">
+            {{ message.message }}
           </div>
         </div>
       }
 
       @if (isLoading) {
         <div class="message">
-          <div class="message-buble">
+          <div class="message-bubble">
             <span class="typing">...</span>
           </div>
         </div>
@@ -30,10 +30,25 @@
   <div class="chat-input">
     <mat-form-field class="full-width">
       <mat-label>Ask anything</mat-label>
-      <input matInput type="text" [(ngModel)]="userPrompt" (keyup.enter)="sendMessage()">
-      <button matSuffix matIconButton aria-label="Send" (click)="sendMessage()" [disabled]="isLoading">
-        <mat-icon>send</mat-icon>
-      </button>
+      <input matInput
+            [ngModel]="userPrompt()"
+            (ngModelChange)="userPrompt.set($event)"
+            (keyup.enter)="sendMessage()"
+            [maxlength]="MAX_LENGTH"
+            placeholder="Type your message...">
+      <mat-hint align="end">{{userPrompt().length}}/{{MAX_LENGTH}}</mat-hint>
+      @if (validationError()) {
+        <mat-error>{{validationError()}}</mat-error>
+      }
+      @if (userPrompt()) {
+        <button matSuffix
+                mat-icon-button
+                aria-label="Send"
+                (click)="sendMessage()"
+                [disabled]="!canSend()">
+          <mat-icon>send</mat-icon>
+        </button>
+     }
     </mat-form-field>
   </div>
 </mat-card>

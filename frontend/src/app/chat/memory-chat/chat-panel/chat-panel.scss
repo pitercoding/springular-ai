@@ -1,8 +1,8 @@
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 80vh;
-  margin: 36px;
+  height: 100%;
+  margin: 5px;
 }
 
 .chat-header {
@@ -10,8 +10,8 @@
 }
 
 .chat-history {
-  flex: 1 1 auto;
-  overflow-y: auto;
+  flex: 1 1 auto; /* Chat history takes up available space */
+  overflow-y: auto; /* Add scrollbar if content overflows */
   padding: 10px;
 }
 
@@ -34,15 +34,16 @@
 }
 
 .user {
-  background-color: #004d40;
+  background-color: #004d40; /* Light blue for user messages */
   border-radius: 10px;
-  align-self: flex-end;
-  margin-left: auto;
+  align-self: flex-end; /* Align to the right */
+  margin-left: auto; // changed from margin-right: auto
 }
 
+
 .chat-input {
-  flex: 0 0 auto;
-  padding: 16px;
+  flex: 0 0 auto; /* Input bar doesn't grow or shrink */
+  padding: 10px;
 }
 
 .full-width {
@@ -53,7 +54,7 @@
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  animation: typing 1s steps(10) infinite alternate;
+  animation: typing 1s steps(10) infinite alternate; // changed from 2s to 1s
 }
 
 @keyframes typing {
@@ -64,5 +65,3 @@
     width: 100%;
   }
 }
-
-
