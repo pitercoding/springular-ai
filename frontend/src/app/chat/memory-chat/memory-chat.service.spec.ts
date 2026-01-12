@@ -3,8 +3,8 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { MemoryChatService } from './memory-chat.service';
-import { ChatStartResponse } from '../../chat';
-import { ChatMessage, ChatType } from '../../chat-message';
+import { ChatStartResponse } from '../chat';
+import { ChatMessage, ChatType } from '../chat-message';
 
 describe('MemoryChatService', () => {
   let service: MemoryChatService;
