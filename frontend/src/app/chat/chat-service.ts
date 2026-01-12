@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ChatService {
-  private readonly API = '/api/chat';
+  private readonly API = '/api/chat-memory';
 
   private http = inject(HttpClient);
 

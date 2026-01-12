@@ -9,18 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
-    private final ChatClient chatClient;
+    private final SimpleChatService simpleChatService;
 
-    public ChatController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public ChatController(SimpleChatService simpleChatService) {
+        this.simpleChatService = simpleChatService;
     }
 
     @PostMapping
-    ChatMessage simpleChat(@RequestBody ChatMessage chatMessage) {
-        var response = this.chatClient.prompt()
-                .user(chatMessage.message())
-                .call()
-                .content();
-        return new ChatMessage(response);
+    public ChatResponse chat(@RequestBody ChatRequest request) {
+        return new ChatResponse(this.simpleChatService.chat(request.message()));
     }
 }
